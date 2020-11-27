@@ -3,7 +3,7 @@ Description=ALSA MIDI autoconnect daemon
 After=sound.target
 
 [Service]
-ExecStart=/usr/local/bin/amidiauto
+ExecStart=/usr/local/bin/amidihub
 EnvironmentFile=/etc/environment
 
 [Install]

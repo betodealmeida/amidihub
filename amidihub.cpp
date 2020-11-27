@@ -1,6 +1,7 @@
 /*
- * amidihub - ALSA MIDI autoconnect daemon.
- * Copyright (C) 2019  Vilniaus Blokas UAB, https://blokas.io/
+ * amidihub - ALSA MIDI autoconnect daemon for hardware.
+ * Copyright (C) 2019 Vilniaus Blokas UAB, https://blokas.io/
+ * Copyright (C) 2020 Beto Dealmeida, https://github.com/betodealmeida/amidihub
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -532,7 +533,7 @@ cleanup:
 
 static void printVersion(void)
 {
-	printf("Version %x.%02x\nCopyright 2019 (c) Blokas Labs, 2020 (c) Beto Dealmeida\n" HOMEPAGE_URL "\n", AMIDIHUB_VERSION >> 8, AMIDIHUB_VERSION & 0xff);
+	printf("Version %x.%02x\nCopyright 2019 (C) Blokas Labs, 2020 (C) Beto Dealmeida\n" HOMEPAGE_URL "\n", AMIDIHUB_VERSION >> 8, AMIDIHUB_VERSION & 0xff);
 }
 
 static void printUsage()

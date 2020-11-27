@@ -20,7 +20,8 @@ BINARY_DIR ?= /usr/local/bin
 
 all: amidihub
 
-CXXFLAGS ?= -O3
+# O0 is needed for the raspi
+CXXFLAGS ?= -O0
 LDFLAGS ?= -lasound
 
 CXX?=g++-4.9
@@ -43,13 +44,4 @@ install: all
 clean:
 	rm -f amidihub *.o
 	rm -f amidihub.deb
-	rm -f debian/usr/bin/amidihub
 	gunzip `find . | grep gz` > /dev/null 2>&1 || true
-
-amidihub.deb: amidihub
-	@gzip --best -n ./debian/usr/share/doc/amidihub/changelog ./debian/usr/share/doc/amidihub/changelog.Debian ./debian/usr/share/man/man1/amidihub.1
-	@mkdir -p debian/usr/bin
-	@cp -p amidihub debian/usr/bin/
-	@fakeroot dpkg --build debian
-	@mv debian.deb amidihub.deb
-	@gunzip `find . | grep gz` > /dev/null 2>&1
