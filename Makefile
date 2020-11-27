@@ -1,4 +1,4 @@
-# amidiauto - ALSA MIDI autoconnect daemon.
+# amidihub - ALSA MIDI hubconnect daemon.
 # Copyright (C) 2019  Vilniaus Blokas UAB, https://blokas.io/
 #
 # This program is free software; you can redistribute it and/or
@@ -18,14 +18,15 @@
 
 BINARY_DIR ?= /usr/local/bin
 
-all: amidiauto
+all: amidihub
 
-CXXFLAGS ?= -O3
+# O0 is needed for the raspi
+CXXFLAGS ?= -O0
 LDFLAGS ?= -lasound
 
 CXX?=g++-4.9
 
-amidiauto: amidiauto.o
+amidihub: amidihub.o
 	$(CXX) $^ -o $@ $(LDFLAGS)
 	strip $@
 
@@ -33,23 +34,14 @@ amidiauto: amidiauto.o
 	$(CXX) -c $(CXXFLAGS) $^ -o $@
 
 install: all
-	@systemctl stop amidiauto > /dev/null 2>&1 || true
-	@cp -p amidiauto $(BINARY_DIR)/
-	@cp -p amidiauto.service /usr/lib/systemd/system/
+	@systemctl stop amidihub > /dev/null 2>&1 || true
+	@cp -p amidihub $(BINARY_DIR)/
+	@cp -p amidihub.service /usr/lib/systemd/system/
 	@systemctl daemon-reload > /dev/null 2>&1
-	@systemctl enable amidiauto > /dev/null 2>&1
-	@systemctl start amidiauto > /dev/null 2>&1
+	@systemctl enable amidihub > /dev/null 2>&1
+	@systemctl start amidihub > /dev/null 2>&1
 
 clean:
-	rm -f amidiauto *.o
-	rm -f amidiauto.deb
-	rm -f debian/usr/bin/amidiauto
+	rm -f amidihub *.o
+	rm -f amidihub.deb
 	gunzip `find . | grep gz` > /dev/null 2>&1 || true
-
-amidiauto.deb: amidiauto
-	@gzip --best -n ./debian/usr/share/doc/amidiauto/changelog ./debian/usr/share/doc/amidiauto/changelog.Debian ./debian/usr/share/man/man1/amidiauto.1
-	@mkdir -p debian/usr/bin
-	@cp -p amidiauto debian/usr/bin/
-	@fakeroot dpkg --build debian
-	@mv debian.deb amidiauto.deb
-	@gunzip `find . | grep gz` > /dev/null 2>&1
